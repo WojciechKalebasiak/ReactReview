@@ -1,25 +1,28 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import Person from "./Person/person";
 
 class App extends Component {
+  state = {
+    persons: [
+      { name: "Max", age: 28 },
+      {
+        name: "John",
+        age: 19
+      },
+      { name: "Zoe", age: 31 }
+    ]
+  };
+  handleClick = () => {
+    console.log("Was clicked!");
+  };
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <h1>Im react component</h1>
+        <button onClick={this.handleClick}>Switch name</button>
+        <Person person={this.state.persons[0]} />
+        <Person person={this.state.persons[1]} />
+        <Person person={this.state.persons[2]} />
       </div>
     );
   }
