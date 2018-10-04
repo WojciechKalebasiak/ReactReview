@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Person from "./Person/person";
-import UserOutput from "./chall1/UserOutput";
-import UserInput from "./chall1/UserInput";
+
 class App extends Component {
   state = {
     persons: [
@@ -12,45 +11,54 @@ class App extends Component {
       },
       { name: "Zoe", age: 31 }
     ],
-    username: "Username"
+    personsDisplay: false,
   };
-  handleUserInput = e => {
-    this.setState({ username: e.target.value });
-  };
-  handleInput = newName => {
+  handleInput = e => {
     this.setState({
-      persons: [
-        { name: newName, age: 28 },
-        {
-          name: "John",
-          age: 19
-        },
-        { name: "Zoe", age: 40 }
-      ]
+      pLength: e.target.value.length,
+      stringArray: e.target.value.split("")
     });
   };
+  togglePersonsDisplay = () => {
+    this.setState({ personsDisplay: !this.state.personsDisplay });
+  };
+  deletePerson = index => {
+    this.setState({
+      persons: this.state.persons.filter(
+        (person, personIndex) => personIndex !== index
+      )
+    });
+  };
+  handleNameChange = (index, name) => {
+    const newPersonList = [...this.state.persons];
+    newPersonList[index].name = name;
+    this.setState({ persons: newPersonList });
+  };
   render() {
+    const { personsDisplay, persons } = this.state;
+    let personsList = null;
+    if (personsDisplay) {
+      personsList = (
+        <div>
+          {persons.map((person, index) => (
+            <Person
+              person={person}
+              key={index}
+              deletePerson={() => this.deletePerson(index)}
+              changeName={name => this.handleNameChange(index, name)}
+            />
+          ))}
+        </div>
+      );
+    }
     return (
-      <div className="App">
-        <h1>Im react component</h1>
-        <Person
-          changeName={newName => this.handleInput(newName)}
-          person={this.state.persons[0]}
-        />
-        <Person
-          changeName={newName => this.handleInput(newName)}
-          person={this.state.persons[1]}
-        />
-        <Person
-          changeName={newName => this.handleInput(newName)}
-          person={this.state.persons[2]}
-        />
-        <UserInput handleUsernameChange={this.handleUserInput} username={this.state.username}/>
-        <UserOutput username={this.state.username} />
-        <UserOutput username={this.state.username} />
-        <UserOutput username={this.state.username} />
-        <UserOutput username={this.state.username} />
-        <UserOutput username={this.state.username} />
+      <div className="App" style={{ textAlign: "center" }}>
+        <button
+          onClick={this.togglePersonsDisplay}
+          style={{ marginTop: "50px" }}>
+          Toggle Display
+        </button>
+        {personsList}
       </div>
     );
   }
