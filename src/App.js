@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Person from "./Person/person";
-
+import classnames from "classnames";
+import styles from './App.module.css';
 class App extends Component {
   state = {
     persons: [
@@ -11,7 +12,7 @@ class App extends Component {
       },
       { name: "Zoe", age: 31 }
     ],
-    personsDisplay: false,
+    personsDisplay: false
   };
   handleInput = e => {
     this.setState({
@@ -20,6 +21,7 @@ class App extends Component {
     });
   };
   togglePersonsDisplay = () => {
+    console.log(styles.button);
     this.setState({ personsDisplay: !this.state.personsDisplay });
   };
   deletePerson = index => {
@@ -52,10 +54,14 @@ class App extends Component {
       );
     }
     return (
-      <div className="App" style={{ textAlign: "center" }}>
+      <div className={styles.App}>
         <button
           onClick={this.togglePersonsDisplay}
-          style={{ marginTop: "50px" }}>
+          className={classnames(styles.button, {
+            [styles.hideDisplayButton]:personsDisplay,
+            [styles.toggleDisplayButton]:!personsDisplay
+          }
+          )}>
           Toggle Display
         </button>
         {personsList}
