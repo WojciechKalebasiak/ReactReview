@@ -1,0 +1,25 @@
+.App {
+    text-align: center;
+}
+
+.button {
+    margin-top: 50px;
+    padding: 10px;
+    font-size: 1.5em;
+    outline: none;
+}
+
+.button.toggleDisplayButton {
+    background-color: green;
+    color: white;
+}
+
+.button.hideDisplayButton {
+    background-color: crimson;
+    color: black;
+}
+
+
+.button:hover {
+    cursor: pointer;
+}
