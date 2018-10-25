@@ -1,17 +1,14 @@
 import React, { Component } from "react";
-
-import Post from "../../components/Post/Post";
-import FullPost from "../../components/FullPost/FullPost";
-import NewPost from "../../components/NewPost/NewPost";
-import "./Blog.css";
+import { Route } from "react-router-dom";
+import Post from "../../../components/Post/Post";
+import FullPost from "../FullPost/FullPost";
+import "./Posts.css";
 import axios from "axios";
-class Blog extends Component {
+class Posts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: [],
-      selectedPostID: null,
-      error: false
+      posts: []
     };
   }
   componentDidMount() {
@@ -30,7 +27,7 @@ class Blog extends Component {
       .catch(err => this.setState({ error: true }));
   }
   selectPost = id => {
-    this.setState({ selectedPostID: id });
+    this.props.history.push(`${this.props.match.url}/${id}`);
   };
   render() {
     const { posts } = this.state;
@@ -47,17 +44,11 @@ class Blog extends Component {
       ))
     );
     return (
-      <div>
-        <section className="Posts">{PostsContent}</section>
-        <section>
-          <FullPost id={this.state.selectedPostID} />
-        </section>
-        <section>
-          <NewPost />
-        </section>
-      </div>
+      <section className="Posts">
+        {PostsContent}
+        <Route path={`${this.props.match.url}/:id`} exact component={FullPost} />
+      </section>
     );
   }
 }
-
-export default Blog;
+export default Posts;
