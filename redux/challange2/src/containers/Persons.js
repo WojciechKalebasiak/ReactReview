@@ -24,7 +24,7 @@ const mapStateToProps = state => ({
   persons: state.persons
 });
 const mapDispatchToProps = dispatch => ({
-  onAddPerson: () => dispatch({ type: ADD_PERSON }),
+  onAddPerson: (person) => dispatch({ type: ADD_PERSON, person }),
   onDeletePerson: id => dispatch({ type: DELETE_PERSON, id })
 });
 export default connect(
