@@ -2,7 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import CounterControl from "../../components/CounterControl/CounterControl";
 import CounterOutput from "../../components/CounterOutput/CounterOutput";
-import * as actionTypes from '../../store/actions';
+import {
+  add,
+  substract,
+  increment,
+  decrement
+} from "../../store/actions/counter";
+import {storeResult, removeResult} from '../../store/actions/results';
 class Counter extends Component {
   state = {
     addValue: 5,
@@ -10,9 +16,6 @@ class Counter extends Component {
   };
 
   render() {
-    // const results = this.props.results.map(result => <li>{result}</li>);
-    console.log(this.props.results);
-
     return (
       <div>
         <CounterOutput value={this.props.counter} />
@@ -39,8 +42,12 @@ class Counter extends Component {
           Store Result
         </button>
         <ul>
-          {this.props.results.map((result) => (
-            <li key={result.id} onClick={()=>this.props.removeResultFromStore(result.id)}>{result.value}</li>
+          {this.props.results.map(result => (
+            <li
+              key={result.id}
+              onClick={() => this.props.removeResultFromStore(result.id)}>
+              {result.value}
+            </li>
           ))}
         </ul>
       </div>
@@ -52,12 +59,12 @@ const mapStateToProps = state => ({
   results: state.res.results
 });
 const mapDispatchToProps = dispatch => ({
-  onIncrementCounter: () => dispatch({ type: actionTypes.INCREMENT }),
-  onDecrementCounter: () => dispatch({ type: actionTypes.DECREMENT }),
-  onAddCounter: value => dispatch({ type: actionTypes.ADD, value }),
-  onSubstractCounter: value => dispatch({ type: actionTypes.SUBSTRACT, value }),
-  addResultToStore: (result) => dispatch({ type: actionTypes.STORE_RESULT, result }),
-  removeResultFromStore: (index) => dispatch({type: actionTypes.REMOVE_RESULT, id:index})
+  onIncrementCounter: () => dispatch(increment()),
+  onDecrementCounter: () => dispatch(decrement()),
+  onAddCounter: value => dispatch(add(value)),
+  onSubstractCounter: value => dispatch(substract(value)),
+  addResultToStore: result => dispatch(storeResult(result)),
+  removeResultFromStore: index => dispatch(removeResult(index))
 });
 export default connect(
   mapStateToProps,
